@@ -273,7 +273,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> myInfoTest(Long memberNo) {
+    public List<Member> myInfoList(Long memberNo) {
         return memberRepository.findOneByNo(memberNo);
     }
 

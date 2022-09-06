@@ -43,7 +43,6 @@ public class TrackingApiController {
         Long no = trackingService.save(request, nowLoginMemberNo, orderNo);
 
         return no;
-
     }
 
     // 조회
@@ -73,7 +72,7 @@ public class TrackingApiController {
 
     // 수정
     @PutMapping("/api/tracking/edit/{trackingNo}")
-    public UpdateProjectResponse updateMemberV2(@SessionAttribute("mSession") Long nowLoginMemberNo,
+    public UpdateProjectResponse updateTracking(@SessionAttribute("mSession") Long nowLoginMemberNo,
             @PathVariable("trackingNo") Long trackingNo,
             @RequestBody @Valid UpdateTrackingRequest request) {
         trackingService.update(trackingNo, memberService.myInfo(nowLoginMemberNo), request);

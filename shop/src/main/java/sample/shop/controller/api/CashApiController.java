@@ -55,9 +55,9 @@ public class CashApiController {
         }
     }
 
-    // 내 프로젝트의 주문서
+    // 내 캐쉬 주문서
     @GetMapping("/api/cash/myList")
-    public List<CashDto> orderByProject(@SessionAttribute("mSession") Long nowLoginMemberNo) {
+    public List<CashDto> cashMyList(@SessionAttribute("mSession") Long nowLoginMemberNo) {
         List<CashList> cashByMy = cashService.findByMemberList(memberService.myInfo(nowLoginMemberNo));
         List<CashDto> collect = cashByMy.stream()
                 .map(cl -> new CashDto(cl.getNo(), cl.getDate(), cl.getStatus(), cl.getMoney(),
@@ -66,9 +66,9 @@ public class CashApiController {
         return collect;
     }
 
-    // 내 프로젝트의 주문서
+    // 모든 캐쉬 주문서
     @GetMapping("/api/cash/list")
-    public List<CashDto> orderByProject(Cash cash) {
+    public List<CashDto> cashList(Cash cash) {
         List<CashList> cashByLoading = cashService.findByLoading(cash);
         List<CashDto> collect = cashByLoading.stream()
                 .map(cl -> new CashDto(cl.getNo(), cl.getDate(), cl.getStatus(), cl.getMoney(),

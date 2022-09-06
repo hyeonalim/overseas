@@ -28,5 +28,5 @@ public interface MemberService {
 
     void delete(Long no);
 
-    List<Member> myInfoTest(Long memberNo);
+    List<Member> myInfoList(Long memberNo);
 }

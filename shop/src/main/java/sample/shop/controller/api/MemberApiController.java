@@ -82,7 +82,7 @@ public class MemberApiController {
     // 선택한 회원 정보 보여주기
     @PostMapping("/api/member/info")
     public List<MemberInfoDto> getMemberInfo(@RequestBody @Valid MemberInfo request) {
-        List<Member> findMembers = memberService.myInfoTest(request.getNo());
+        List<Member> findMembers = memberService.myInfoList(request.getNo());
         List<MemberInfoDto> collect = findMembers.stream()
                 .map(m -> new MemberInfoDto(m.getNo(), m.getName(), m.getId(), m.getPhotoUrl(),
                         m.getAddress().getCity(),
@@ -95,7 +95,7 @@ public class MemberApiController {
     @GetMapping("/api/member/myInfo")
     public List<MyMemberInfoDto> getMyMemberInfo(
             @SessionAttribute(name = "mSession", required = false) Long nowLoginMemberNo) {
-        List<Member> myMemberInfo = memberService.myInfoTest(nowLoginMemberNo);
+        List<Member> myMemberInfo = memberService.myInfoList(nowLoginMemberNo);
         List<MyMemberInfoDto> myMember = myMemberInfo.stream()
                 .map(m -> new MyMemberInfoDto(m.getNo(), m.getName(), m.getId(), m.getPhotoUrl(), m.getBudget(),
                         budgetOrder(m),

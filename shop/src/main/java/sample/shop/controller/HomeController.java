@@ -117,7 +117,7 @@ import sample.shop.service.MemberService;
 
 @Controller
 @RequiredArgsConstructor
-public class ApiTestController {
+public class HomeController {
 
     private final MemberService memberService;
 

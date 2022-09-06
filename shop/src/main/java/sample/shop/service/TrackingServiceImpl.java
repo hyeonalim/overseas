@@ -3,6 +3,7 @@ package sample.shop.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,11 @@ import sample.shop.repository.TrackingRepository;
 @RequiredArgsConstructor
 public class TrackingServiceImpl implements TrackingService {
 
+    @Autowired
     private TrackingRepository trackingRepository;
 
-    private OrderService orderService;
-    private MemberService memberService;
+    private final OrderService orderService;
+    private final MemberService memberService;
 
     @Override
     @Transactional
@@ -51,7 +53,7 @@ public class TrackingServiceImpl implements TrackingService {
 
         Member member = memberService.myInfo(memberNo);
 
-        if (tracking.getOrder().getProject().getMember() == member) {
+        if (order.getProject().getMember() == member) {
             return trackingRepository.save(tracking);
         } else {
             throw new IllegalStateException("프로젝트를 만든 회원이 아닙니다.");

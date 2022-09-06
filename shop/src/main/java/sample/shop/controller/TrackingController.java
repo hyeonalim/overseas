@@ -17,6 +17,8 @@
  */
 package sample.shop.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +37,14 @@ public class TrackingController {
     private final OrderService orderService;
     private final TrackingService trackingService;
 
+    private final MemberController memberController;
+
     // 배송 생성
     @RequestMapping("/trackingSave{orderNo}")
-    public String trackingSave(@PathVariable("orderNo") Long orderNo, Model model) {
+    public String trackingSave(HttpSession httpSession, @PathVariable("orderNo") Long orderNo, Model model) {
         Order order = orderService.findOne(orderNo);
         model.addAttribute("order", order);
+        model.addAttribute("nowLoginMember", memberController.modelMember(httpSession));
 
         return "sample/tracking/tracking-save";
     }

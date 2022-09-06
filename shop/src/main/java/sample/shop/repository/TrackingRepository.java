@@ -24,7 +24,7 @@ public class TrackingRepository {
     }
 
     public List<Tracking> findOrder(Order order) {
-        return em.createQuery("select d from Delivery d where d.order =: order", Tracking.class)
+        return em.createQuery("select t from Tracking t where t.order =: order", Tracking.class)
                 .setParameter("order", order)
                 .getResultList();
     }

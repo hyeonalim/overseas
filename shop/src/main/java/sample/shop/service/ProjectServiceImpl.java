@@ -27,7 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private JPAProjectRepository ProjectRepositoryJPA;
 
-    private CashService cashService;
+    private final CashService cashService;
 
     // 생성
     @Override
