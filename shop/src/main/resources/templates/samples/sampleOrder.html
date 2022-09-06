@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>REST</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+		//ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+		$.ajaxSetup({
+			success:function(result){					
+				alert(result);
+			},
+			error: function (jqXHR) {
+                alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+            }
+		});//ajaxSetup
+
+		//데이터 ALL 가져오기 (전체 조회)
+		$("#projectAll").ready(function(){	
+			$.ajax({
+				type:"get",
+				url:"/api/project/list",
+				success:function(collect){	
+					$("#listView").empty();
+					$.each(collect,function(i,collect){
+						$("#listView").append(collect.name+" "+collect.name+" "+collect.price+" "+collect.quantity+"<br>").css("background","pink");
+					});			
+				}
+			});//ajax
+		});//click
+
+		//선택한 데이터 가져오기 (프로젝트 상세) (데이터 주고받고)
+		$("#projectInfo").click(function () {
+			var request = {
+				"no": $('input[name=projectNo]').val()
+			};
+			$.ajax({
+				type:"post",
+				url: "/api/project/detail",
+				contentType: "application/json; charset=utf-8",
+				dataType: "JSON",
+				data : JSON.stringify(request),
+				success:function(collect){
+					$.each(collect,function(i,collect){
+						$("#postListView").append(collect.name + " " + collect.explain+" " + collect.price + "<br>");
+					});		
+				}
+			});//ajax 
+		});
+
+		
+		//선택한 데이터 가져오기 (해당 멤버) (링크에 해당하는 데이터 주고받고)
+		$("#projectByMember").click(function(){	
+			$.ajax({
+				type:"get",
+				url:"/api/project/member/"+$("#projectId").val(),
+				contentType : "application/json; charset=utf-8",
+				dataType:"JSON",
+				success:function(collect){
+					$.each(collect,function(i,collect){
+						$("#postListView2").append(collect.name + " "+collect.price + "<br>");
+					});		
+				}
+			});//ajax
+		});
+
+		//데이터 만들기
+		$("#testCreateBtn").click(function(){
+			var request = {
+				"name": $('input[name=name]').val(),
+				"exp": $('input[name=exp]').val(),
+				"price" : $('input[name=price]').val(),
+				"quantity" : $('input[name=quantity]').val(),
+				"photoUrl" : $('input[name=photo_url]').val()
+			};		
+			$.ajax({
+				type:"post",
+				url:"/api/project/save",
+				contentType : "application/json; charset=utf-8",
+				dataType:"JSON",				
+				data : JSON.stringify(request)
+			});//ajax
+		});//click
+
+		//데이터 수정하기
+		$("#testPutBtn").click(function(){
+			var request = {
+				"name": $('input[name=put_name]').val(),
+				"exp": $('input[name=put_exp]').val(),
+				"price" : $('input[name=put_price]').val(),
+				"quantity" : $('input[name=put_quantity]').val(),
+				"photoUrl" : $('input[name=put_photo_url]').val()
+			};			
+			$.ajax({
+				type:"put",
+				url:"/api/project/edit/"+$("#putId").val(),
+				contentType : "application/json; charset=utf-8",
+				dataType:"JSON",				
+				data : JSON.stringify(request)
+			});
+		});//click
+
+		//데이터 삭제하기
+		$("#testDeleteBtn").click(function(){			
+			$.ajax({
+				type:"delete",
+				url:"/api/project/remove/"+$("#deleteId").val()
+			});//ajax
+		});//click	
+      
+	  //데이터 만들기
+      $("#saveMember").click(function(){
+        var request = {
+          "username": $('input[name=username]').val(),
+          "password": $('input[name=password]').val(),
+          "checkPassword" : $('input[name=checkPassword]').val(),
+          "photoUrl" : $('input[name=photoUrl]').val(),
+            "city" : $('input[name=city]').val(),
+            "street" : $('input[name=street]').val(),
+            "zipcode" : $('input[name=zipcode]').val()
+        };		
+        $.ajax({
+          type:"post",
+          url:"/api/member/join",
+          contentType : "application/json; charset=utf-8",
+          dataType:"JSON",				
+          data : JSON.stringify(request)
+        });//ajax
+      });//click
+    });
+</script>
+<h3>REST  적용 웹어플리케이션 구현 예제 </h3>
+GET : 리스트 조회 <input type="button" value="projectAll" id="projectAll"><br>
+<div id="listView"></div><br><br>
+
+POST : 생성 <input type="button" value="testCreateBtn" id="testCreateBtn"><br>
+<form id="createProductForm">
+	상품명 <input type="text" name="name" size="5">
+	설명 <input type="text" name="exp" size="5">
+	가격 <input type="number" name="price">
+	수량 <input type="number" name="quantity">
+	사진URL <input type="text" name="photo_url">
+</form>
+<br><br>
+
+POST1 :데이터 불러오기<input type="button" value="projectInfo" id="projectInfo"><br>
+<input type="text" name="projectNo">
+<div id="postListView"></div><br><br>
+<br><br>
+
+POST2 :데이터 불러오기<input type="button" value="projectByMember" id="projectByMember"><br>
+<input type="text" id="projectId">
+<div id="postListView2"></div><br><br>
+<br><br>
+
+PUT : 데이터 수정하기<input type="button" value="testPutBtn" id="testPutBtn"><br>
+<input type="text" id="putId">
+<form id="updateProductForm">
+	상품명 <input type="text" name="put_name" size="5">
+	설명 <input type="text" name="put_exp" size="5">
+	가격 <input type="number" name="put_price">
+	수량 <input type="number" name="put_quantity">
+	사진URL <input type="text" name="put_photo_url">
+</form>
+<br><br>
+
+DELETE : 삭제 <input type="button" value="testDeleteBtn" id="testDeleteBtn">
+<input type="text" id="deleteId">
+<br><br>
+
+</body>
+</html>

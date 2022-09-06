@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+		//ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+		$.ajaxSetup({
+			success:function(result){					
+				alert(result);
+			},
+			error: function (jqXHR) {
+                alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+            }
+		});//ajaxSetup
+
+
+    });
+</script>
+
+</head>
+
+<body id="body">
+
+    <section th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <a class="btn btn-lg btn-secondary" href="/login" th:if="${member}==null">로그인</a>
+    <a class="btn btn-lg btn-secondary" href="/logout" th:if="${member}!=null">로그아웃</a>
+
+    <div class="jumbotron">
+        <h1>HELLO SHOP</h1>
+        <p class="lead">회원 기능</p>
+        <p>
+            <a class="btn btn-lg btn-secondary" href="/signin">회원 가입</a>
+            <a class="btn btn-lg btn-secondary" href="/profile" th:if="${member}!=null">내 회원 정보 보여주기(수정/삭제)</a>
+        </p>
+        <p class="lead">상품 기능</p>
+        <p>
+            <a class="btn btn-lg btn-dark" href="/projectCreate">상품 등록</a>
+            <a class="btn btn-lg btn-dark" href="/project">상품 목록</a>
+            <a class="btn btn-lg btn-dark" href="/project3">상품 조회</a>
+            <a class="btn btn-lg btn-dark" href="/projectEdit3" th:if="${member}!=null">내 상품 조회(업뎃, 삭제)</a>
+            <a class="btn btn-lg btn-dark" href="/projectByMember66">회원 상품 조회</a>
+        </p>
+        <p class="lead">주문 기능</p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/checkout3" th:if="${member}!=null">상품 주문</a>
+            <a class="btn btn-lg btn-info" href="/orderByMy" th:if="${member}!=null">주문 내역</a>
+            <a class="btn btn-lg btn-info" href="/orderByMyProject" th:if="${member}!=null">내 프로젝트 주문서(업뎃, 삭제)</a>
+            <a class="btn btn-lg btn-info" href="/checkoutUpdate3" th:if="${member}!=null">상품 주문 수정</a>
+        </p>
+
+        <p class="lead">배송</p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/trackingSave162">배송 작성</a>
+            <a class="btn btn-lg btn-info" href="/tracking162" th:if="${member}!=null">내가 주문한 배송 조회</a>
+            <a class="btn btn-lg btn-info" href="/trackingUpdate197" th:if="${member}!=null">내가 배송할 배송 조회(수정)</a>
+        </p>
+
+    </div>
+
+    <footer th:replace="fragments/footer :: footer" />
+
+</body>
+</html>

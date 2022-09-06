@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+</head>
+
+<body id="body">
+
+	<section th:replace="fragments/bodyHeader :: bodyHeader" />
+
+	<section th:replace="fragments/navigation :: navigation" />
+
+  <section class="single-product">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/project">Shop</a></li>
+            <li class="active">Single Product</li>
+          </ol>
+        </div>
+      </div>
+      <input type="hidden" value="project" id="project"><br>
+      <input type="hidden" id="postId" th:value="${project.no}"><br>
+      <div class="row mt-20" id="project-detail">
+      </div>
+      <a href="/cart" th:if="${nowLoginMember} != ${project.member}" class="btn btn-main mt-20">Add To
+        Cart</a>
+      <a th:href="@{/checkout{projectNo} (projectNo=${project.no})}"
+        th:if="${nowLoginMember} != ${project.member}" class="btn btn-main mt-20">Go To Checkout</a>
+      <a th:href="@{/projectEdit{projectNo} (projectNo=${project.no})}"
+        th:if="${nowLoginMember} == ${project.member}" class="btn btn-main mt-20">Edit</a>
+        <div id="details" class="dashboard-wrapper dashboard-user-profile">
+          <div class="media">
+            <div class="pull-left text-center" href="#!">
+              <a th:href="@{/projectByMember{memberNo} (memberNo=${project.member.no})}"><img class="media-object user-img" th:src="${project.member.photoUrl}" alt="Image"></a>
+            </div>
+            <div class="media-body">
+              <ul class="user-profile-list">
+                <li><span>Full Name:</span>
+                  <span th:text="${project.member.name}"></span>
+                </li>
+                <li><span>Email:</span>
+                  <span th:text="${project.member.address.street}">mail@gmail.com</span>
+                </li>
+                <li><span>Phone:</span>+880123123</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+	<footer th:replace="fragments/footer :: footer" />
+    
+	<!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+      $(document).ready(function(){
+      //ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+      $.ajaxSetup({
+        success:function(result){					
+          alert(result);
+        },
+        error: function (jqXHR) {
+                  alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+                  console.log(error);
+              }
+      });//ajaxSetup
+  
+      //데이터 ALL 가져오기
+      $("#project").ready(function(){
+        var request = {
+				"no": $('input[id=postId]').val()
+			};
+			$.ajax({
+				type:"post",
+				url: "/api/project/detail",
+				contentType: "application/json; charset=utf-8",
+				dataType: "JSON",
+				data : JSON.stringify(request),
+				success:function(collect){
+					$.each(collect,function(i,collect){
+            $("#project-detail").append(
+              '<div class="col-md-5">'
+                + '<div class="single-product-slider">'
+                + '<div id="carousel-custom" class="carousel slide" data-ride="carousel">'
+                + '<div class="carousel-outer">'
+                + '<div class="carousel-inner">'
+                + '<div class="item active">'
+                + '<img src="images/shop/single-products/product-1.jpg" alt="" data-zoom-image="images/shop/single-products/product-1.jpg" />'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="col-md-7">'
+                + '<div class="single-product-details">'
+                + '<h2>'+collect.name+'</h2>'
+                + '<div class="tooltip" title="'
+                + '1차 입금액 : ' + collect.firstPrice
+                + '<br> 2차 입금액 : ' + collect.secondPrice
+                + '<br> 3차 입금액 : ' + collect.thirdPrice
+                + '"><p class="product-price">' + collect.price + '원</p>'
+                + '</div>'
+                + '<p class="product-description mt-20">'
+                + collect.exp
+                + '</p>'
+                + '<div class="product-quantity">'
+                + '<span>Quantity:</span>'
+                + '<div class="product-quantity-slider">'
+                + '<input id="product-quantity" type="text" value="0" name="product-quantity">'
+                + '</div>'
+                + '</div>'
+                + '<a href="/cart" class="btn btn-main mt-20">Add To Cart</a>'
+                + '</div>'
+                + '</div>'
+        )});		
+				}
+			});//ajax 
+		});//click
+      });
+    </script>
+
+  </body>
+  </html>

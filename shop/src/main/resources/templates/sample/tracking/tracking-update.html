@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+</head>
+
+<body id="body">
+
+	<section th:replace="fragments/bodyHeader :: bodyHeader" />
+
+	<section th:replace="fragments/navigation :: navigation" />
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">Dashboard</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html">Home</a></li>
+						<li class="active">my account</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-inline dashboard-menu text-center">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="order.html">Orders</a></li>
+          <li><a class="active" href="address.html">Address</a></li>
+          <li><a href="profile-details.html">Profile Details</a></li>
+        </ul>
+        <div class="dashboard-wrapper user-dashboard">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Country</th>
+                  <th class="col-md-2 col-sm-3">Phone</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+				<input type="hidden" id="postId" th:value="${tracking.no}">
+                <tr>
+                  <td>
+					<input type="text" class="form-control"  placeholder="Local" name="local">
+				  </td>
+				  <td>
+					<input type="text" class="form-control"  placeholder="memo" name="memo">
+				  </td>
+				  <td>
+					<input type="text" class="form-control"  placeholder="status" name="status">
+				  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <input type="button" class="btn btn-main text-center" value="Save" id="save" />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer th:replace="fragments/footer :: footer" />
+    <!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+        //ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+        $.ajaxSetup({
+          success:function(result){					
+            alert(result);
+          },
+          error: function (jqXHR) {
+                    alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+                }
+        });//ajaxSetup
+    
+        $("#save").click(function(){	
+          var request = {
+            "status": $('input[name=status]').val(),
+            "local": $('input[name=local]').val(),
+            "memo": $('input[name=memo]').val()
+          };
+          $.ajax({
+            type:"put",
+            url:"/api/tracking/edit/"+$('input[id=postId]').val(),
+            contentType : "application/json; charset=utf-8",
+            dataType:"JSON",				
+            data : JSON.stringify(request)
+          });//ajax
+        });
+
+        });
+    </script>
+
+  </body>
+  </html>

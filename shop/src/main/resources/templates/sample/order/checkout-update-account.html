@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+</head>
+
+<body id="body">
+
+	<section th:replace="fragments/bodyHeader :: bodyHeader" />
+
+	<section th:replace="fragments/navigation :: navigation" />
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">Checkout</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html">Home</a></li>
+						<li class="active">checkout</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="page-wrapper">
+   <div class="checkout shopping">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8">
+               <div class="block billing-details">  
+                  <form class="checkout-form">
+					<h4 class="widget-title">My Info</h4>
+					<div class="form-group">
+                        <label for="full_name">Phone</label>
+                        <input type="text" class="form-control" id="phone" placeholder="">
+                     </div>
+					 <div class="form-group">
+                        <label for="full_name">Memo</label>
+                        <input type="text" class="form-control" id="memo" placeholder="">
+                     </div>
+					 <div class="form-group">
+                        <label for="user_address">Street</label>
+                        <input type="text" class="form-control" id="street" placeholder="">
+                     </div>
+                     <div class="checkout-country-code clearfix">
+                        <div class="form-group">
+                           <label for="user_post_code">Zip Code</label>
+                           <input type="text" class="form-control" id="zipcode" name="zipcode" value="">
+                        </div>
+                        <div class="form-group" >
+                           <label for="user_city">City</label>
+                           <input type="text" class="form-control" id="city" name="city" value="">
+                        </div>
+                     </div>
+
+					<h4 class="widget-title">Purchase Info</h4>
+					<p>Refund</p>
+                     <div class="form-group">
+                        <label for="user_address">Name</label>
+                        <input type="text" class="form-control" id="refundName" placeholder="">
+                     </div>
+                     <div class="checkout-country-code clearfix">
+                        <div class="form-group">
+                           <label for="user_post_code">Bank Account</label>
+                           <input type="text" class="form-control" id="refundbankName" name="zipcode" value="">
+                        </div>
+                        <div class="form-group" >
+                           <label for="user_city">Bank Name</label>
+                           <input type="text" class="form-control" id="refundaccount" name="city" value="">
+                        </div>
+                     </div>
+                    <p>Purchase</p>
+                     <div class="form-group">
+                        <label for="user_address">Date</label>
+                        <input type="text" class="form-control" id="purchasedate" placeholder="">
+                     </div>
+                     <div class="checkout-country-code clearfix">
+                        <div class="form-group">
+                           <label for="user_post_code">Bank Account</label>
+                           <input type="text" class="form-control" id="purchaseaccount" name="zipcode" value="">
+                        </div>
+                        <div class="form-group" >
+                           <label for="user_city">Bank Name</label>
+                           <input type="text" class="form-control" id="purchasebankName" name="city" value="">
+                        </div>
+                     </div>
+
+					 <div class="text-center">
+						<input type="button" value="Create Project" id="saveProject" class="btn btn-main text-center">
+					  </div>
+                  </form>
+               </div>
+            </div>
+			<input type="hidden" id="postId" th:value="${order.no}">
+         </div>
+      </div>
+   </div>
+</div>
+   
+<footer th:replace="fragments/footer :: footer" />
+
+    <!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        //ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+        $.ajaxSetup({
+          success:function(result){					
+            alert(result);
+          },
+          error: function (jqXHR) {
+            alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+          }
+        });//ajaxSetup
+        
+      //데이터 만들기
+      $("#saveProject").click(function(){
+        var request = {
+          "phone": $('input[id=phone]').val(),
+          "memo": $('input[id=memo]').val(),
+          "city" : $('input[id=city]').val(),
+          "street" : $('input[id=street]').val(),
+          "zipcode" : $('input[id=zipcode]').val(),
+          "refundName": $('input[id=refundName]').val(),
+          "refundBankName" : $('input[id=refundbankName]').val(),
+          "refundAccount" : $('input[id=refundaccount]').val(),
+          "purchaseDate": $('input[id=purchasedate]').val(),
+          "purchaseBankName" : $('input[id=purchasebankName]').val(),
+          "purchaseAccount" : $('input[id=purchaseaccount]').val()
+        };		
+        $.ajax({
+          type:"put",
+          url:"/api/order/update/"+$('input[id=postId]').val(),
+          contentType : "application/json; charset=utf-8",
+          dataType:"JSON",				
+          data : JSON.stringify(request)
+        });//ajax
+      });//click
+      });
+    </script>
+
+  </body>
+  </html>

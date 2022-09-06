@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+</head>
+
+<body id="body">
+
+	<section th:replace="fragments/bodyHeader :: bodyHeader" />
+
+	<section th:replace="fragments/navigation :: navigation" />
+
+  <section class="single-product">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/project">Shop</a></li>
+            <li class="active">Single Product</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row mt-20">
+        <div class="col-md-5">
+          <div class="single-product-slider">
+            <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+              <div class='carousel-outer'>
+                <!-- me art lab slider -->
+                <div class='carousel-inner '>
+                    
+                  <div class='item active'>
+                    <a href="/imgupload">
+                    <img src='images/shop/single-products/product-1.jpg' alt='' data-zoom-image="images/shop/single-products/product-1.jpg">
+                    </img>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <form id="saveProjectForm">
+            <div class="single-product-details">
+  
+              <div class="form-group">
+                <label for="project_name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="name">
+              </div>
+
+              <div class="form-group">
+                <label for="project_explain">Status</label>
+                <select onchange="statusFind(this)" class="form-control">
+                  <option value="RESEARCH">RESEARCH</option>
+                  <option value="GRAD">GRAD</option>
+                  <option value="SALE">SALE</option>
+                  <option value="FINISH">FINISH</option>
+                  <option value="CLOSED">CLOSED</option>
+                  <option value="HELP">HELP</option>
+                </select>
+              </div>
+            
+              <div class="form-group">
+                <label for="project_price">First Price</label>
+                <input type="text" name="firstPrice" class="form-control" id="firstPrice" placeholder="firstPrice">
+              </div>
+
+              <div class="form-group">
+                <label for="project_price">Second Price</label>
+                <input type="text" name="secondPrice" class="form-control" id="secondPrice" placeholder="secondPrice">
+              </div>
+
+              <div class="form-group">
+                <label for="project_price">Third Price</label>
+                <input type="text" name="thirdPrice" class="form-control" id="thirdPrice" placeholder="thirdPrice">
+              </div>
+  
+              <div class="form-group">
+                <label for="project_quantity">Quantity</label>
+                <input type="text" class="form-control" name="quantity" id="quantity" value="0" placeholder="quantity">
+              </div>
+
+              <div class="form-group">
+                <label for="project_explain">Order Status</label>
+                <select onchange="orderStatusFind(this)" class="form-control">
+                  <option value="ACCOUNT">ACCOUNT</option>
+                  <option value="CASH">CASH</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label for="project_price">Country</label>
+                <input type="text" name="country" class="form-control" id="country" placeholder="country">
+              </div>
+
+              <div class="form-group">
+                <label for="project_explain">Explain</label>
+                <input type="text" name="exp" class="form-control" id="exp" placeholder="explain">
+              </div>
+  
+              <div class="text-center">
+                <input type="button" value="Create Project" id="saveProject" class="btn btn-main text-center">
+              </div>
+  
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+	<footer th:replace="fragments/footer :: footer" />
+    
+	<!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      var orderStatus = "ACCOUNT";
+      const orderStatusFind = (target) => { //on의 value 값
+        orderStatus = target.value;
+        console.log(orderStatus);
+      }
+
+      var status = "RESEARCH";
+      const statusFind = (target) => { //on의 value 값
+        status = target.value;
+        console.log(status);
+      }
+    
+      $(document).ready(function(){
+        //ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+        $.ajaxSetup({
+          success:function(result){					
+            alert(result);
+          },
+          error: function (jqXHR) {
+            alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+          }
+        });//ajaxSetup
+        
+      $("#saveProject").click(function(){
+        var request = {
+          "name": $('input[name=name]').val(),
+          "status" : status,
+          "firstPrice": $('input[name=firstPrice]').val(),
+          "secondPrice": $('input[name=secondPrice]').val(),
+          "thirdPrice": $('input[name=thirdPrice]').val(),
+          "quantity" : $('input[name=quantity]').val(),
+          "orderStatus" : orderStatus,
+          "country" : $('input[name=country]').val(),
+          "exp" : $('input[name=exp]').val()
+        };		
+        $.ajax({
+          type:"post",
+          url:"/api/project/save",
+          contentType : "application/json; charset=utf-8",
+          data : JSON.stringify(request),
+            success: function (result) {
+              location.href="http://localhost:8080/project";
+            },
+           error: function (jqXHR) {
+              alert("프로젝트 입력 필드가 누락되었습니다.");
+            }
+        });//ajax
+      });//click
+      });
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Overseas Shopping</title>
+
+</head>
+
+<body id="body">
+
+<section class="signin-page account">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="block text-center">
+          <a class="logo" href="/">
+            <img src="/images/logo.png" alt="">
+          </a>
+          <h2 class="text-center">Create Your Account</h2>
+          <form class="text-left clearfix">
+            <div class="form-group">
+              <p class="mt-20"><a href="/imgupload">Img Upload</a></p>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="Name" name="name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="id" name="id">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control"  placeholder="pwd" name="pwd">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control"  placeholder="checkPwd" name="checkPwd">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="phone" name="phone">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="city" name="city">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="street" name="street">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"  placeholder="zipcode" name="zipcode">
+            </div>
+            <div class="text-center">
+              <input type="button" class="btn btn-main text-center" value="Sign In" id="testPostListBtn1" />
+            </div>
+          </form>
+          <p class="mt-20">Already hava an account ?<a href="/login"> Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+        //ajaxSetup():  실행될  AJAX 요청에 대한 기본 속성을 정의해 재사용 
+        $.ajaxSetup({
+          success:function(result){					
+            alert(result);
+          },
+          error: function (jqXHR) {
+                    alert("jqXHR status code:"+jqXHR.status+" message:"+jqXHR.responseText);
+                }
+        });//ajaxSetup
+    
+        $("#testPostListBtn1").click(function(){	
+          var request = {
+            "name": $('input[name=name]').val(),
+            "id": $('input[name=id]').val(),
+            "pwd": $('input[name=pwd]').val(),
+            "checkPwd": $('input[name=checkPwd]').val(),
+            "phone": $('input[name=phone]').val(),
+            "city": $('input[name=city]').val(),
+            "street": $('input[name=street]').val(),
+            "zipcode": $('input[name=zipcode]').val()
+          };
+          $.ajax({
+            type:"post",
+            url:"/api/member/join",
+            contentType : "application/json; charset=utf-8",
+            dataType:"JSON",				
+            data : JSON.stringify(request),
+            success:function(){
+              location.href="http://localhost:8080";
+            },
+            error: function () {
+              alert("회원 가입 입력 필드가 잘못 입력되었습니다.");
+            }
+          });//ajax
+        });
+      
+        });
+    </script>
+
+  </body>
+  </html>
